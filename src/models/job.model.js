@@ -1,6 +1,6 @@
 const jobs = [
     {
-        id: 1,
+        id: '1',
         company: "Juspay",
         category: "Tech",
         title: "SDE",
@@ -11,10 +11,10 @@ const jobs = [
         openings: 5,
         creationDate: "4/22/2024, 6:36:01 AM",
         applicants: [],
-        postedBy: "Atul",
+        postedBy: "atul@gmail.com",
     },
     {
-        id: 2,
+        id: '2',
         company: "Coding Ninjas",
         category: "Tech",
         title: "SDE",
@@ -25,10 +25,10 @@ const jobs = [
         openings: 5,
         creationDate: "4/22/2024, 6:36:01 AM",
         applicants: [],
-        postedBy: "Atul",
+        postedBy: "atul@gmail.com",
     },
     {
-        id: 3,
+        id: '3',
         company: "Go Digit",
         category: "Tech",
         title: "Angular Developer",
@@ -39,39 +39,39 @@ const jobs = [
         openings: 5,
         creationDate: "4/22/2024, 6:36:01 AM",
         applicants: [],
-        postedBy: "Atul",
+        postedBy: "atul@gmail.com",
     }
 ]
 
 export default class JobModel {
-    getJobs() {
+    static getJobs() {
         return jobs;
     }
     // Get a job by ID
-    getJobById (id) {
+    static getJobById (id) {
         const job = jobs.find(job => job.id === id);
         return job;
     }
     // Add a new job
-    addJob (job, recruiter) {
+    static addJob (job, recruiter) {
         jobs.push({...job, id: crypto.randomUUID(), applicants: [], postedBy: recruiter});
     }
     // Update a job by ID
-    updateJobById (id, updatedJob) {
+    static updateJobById (id, updatedJob) {
         const index = jobs.findIndex(job => job.id === id);
         if (index !== -1) {
             jobs[index] = { ...jobs[index], ...updatedJob };
         }
     }
     // Delete a job by ID
-    deleteJobById (id){
+    static deleteJobById (id){
         const index = jobs.findIndex(job => job.id === id);
         if (index !== -1) {
             jobs.splice(index, 1);
         }
     }
     // Add applicant to a job
-    addApplicant (jobId, applicant) {
+    static addApplicant (jobId, applicant) {
         const job = jobs.find(job => job.id === jobId);
         if (job) {
             applicant.id = crypto.randomUUID();
@@ -82,7 +82,7 @@ export default class JobModel {
     }
 
     // Get applicants for a job by ID
-    getApplicantsForJob (id) {
+    static getApplicantsForJob (id) {
         const job = jobs.find(job => job.id === id);
         if (job) {
             return job.applicants;

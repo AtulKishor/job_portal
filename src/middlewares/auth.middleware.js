@@ -1,6 +1,6 @@
 export default (req, res, next) => {
     // Check if the user is authenticated
-    if (!req.session.userName) {
+    if (!req.session.userEmail) {
         // If not authenticated, redirect to the login page
         return res.redirect('/404');
     }
