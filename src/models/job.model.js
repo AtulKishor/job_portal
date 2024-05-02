@@ -1,60 +1,93 @@
-export default class JobModel {
-    constructor (_id, _category, _designation, _location, _company, _salary, _deadline, _skills, _opening, _postdate, _applicants) {
-        this.id = _id,
-        this.category = _category,
-        this.designation = _designation,
-        this.location = location,
-        this.company = _company,
-        this.salary = _salary,
-        this.deadline = _deadline,
-        this.skills = _skills,
-        this.opening = _opening,
-        this.postdate = _postdate,
-        this.applicants = _applicants
-    }
-    static getJobs() {
-        return jobs;
-    }
-}
-
 const jobs = [
     {
         id: 1,
         company: "Juspay",
         category: "Tech",
-        designation: "SDE",
+        title: "SDE",
         location: "Bangalore IND",
-        salary: "20-26lpa",
-        skills: ["REACT", "NodeJs", "JS", "SQL", "MongoDB", "Express", "AWS"],
-        deadline: "30 Sep 2023",
-        opening: 5,
-        postdate: "4/22/2024, 6:36:01 AM",
-        applicants: 4,
+        package: "20-26lpa",
+        skillsRequired: ["REACT", "NodeJs", "JS", "SQL", "MongoDB", "Express", "AWS"],
+        applyBy: "30 Sep 2023",
+        openings: 5,
+        creationDate: "4/22/2024, 6:36:01 AM",
+        applicants: [],
+        postedBy: "Atul",
     },
     {
         id: 2,
         company: "Coding Ninjas",
         category: "Tech",
-        designation: "SDE",
+        title: "SDE",
         location: "Gurgaon HR IND Remote",
-        salary: "14-20lpa",
-        skills: ["REACT", "NodeJs", "JS", "SQL", "MongoDB", "Express", "AWS"],
-        deadline: "30 Aug 2023",
-        opening: 5,
-        postdate: "4/22/2024, 6:36:01 AM",
-        applicants: 2,
+        package: "14-20lpa",
+        skillsRequired: ["REACT", "NodeJs", "JS", "SQL", "MongoDB", "Express", "AWS"],
+        applyBy: "30 Aug 2023",
+        openings: 5,
+        creationDate: "4/22/2024, 6:36:01 AM",
+        applicants: [],
+        postedBy: "Atul",
     },
     {
         id: 3,
         company: "Go Digit",
         category: "Tech",
-        designation: "Angular Developer",
+        title: "Angular Developer",
         location: "Pune IND On-Site",
-        salary: "6-10lpa",
-        skills: ["Angular", "JS", "SQL", "MongoDB", "Express", "AWS"],
-        deadline: "30 Jan 2024",
-        opening: 5,
-        postdate: "4/22/2024, 6:36:01 AM",
-        applicants: 0,
+        package: "6-10lpa",
+        skillsRequired: ["Angular", "JS", "SQL", "MongoDB", "Express", "AWS"],
+        applyBy: "30 Jan 2024",
+        openings: 5,
+        creationDate: "4/22/2024, 6:36:01 AM",
+        applicants: [],
+        postedBy: "Atul",
     }
 ]
+
+export default class JobModel {
+    getJobs() {
+        return jobs;
+    }
+    // Get a job by ID
+    getJobById (id) {
+        const job = jobs.find(job => job.id === id);
+        return job;
+    }
+    // Add a new job
+    addJob (job, recruiter) {
+        jobs.push({...job, id: crypto.randomUUID(), applicants: [], postedBy: recruiter});
+    }
+    // Update a job by ID
+    updateJobById (id, updatedJob) {
+        const index = jobs.findIndex(job => job.id === id);
+        if (index !== -1) {
+            jobs[index] = { ...jobs[index], ...updatedJob };
+        }
+    }
+    // Delete a job by ID
+    deleteJobById (id){
+        const index = jobs.findIndex(job => job.id === id);
+        if (index !== -1) {
+            jobs.splice(index, 1);
+        }
+    }
+    // Add applicant to a job
+    addApplicant (jobId, applicant) {
+        const job = jobs.find(job => job.id === jobId);
+        if (job) {
+            applicant.id = crypto.randomUUID();
+            job.applicants.push(applicant);
+        } else {
+            throw new Error('Job not found');
+        }
+    }
+
+    // Get applicants for a job by ID
+    getApplicantsForJob (id) {
+        const job = jobs.find(job => job.id === id);
+        if (job) {
+            return job.applicants;
+        } else {
+            throw new Error('Job not found');
+        }
+    }
+}

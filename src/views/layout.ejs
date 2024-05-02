@@ -28,20 +28,26 @@
               <a class="nav-link" href="/jobs">Jobs</a>
             </li>
             <li class="nav-item dropdown">
-              
-              <a class="nav-link dropdown-toggle" href="https://easily-deploy.onrender.com/#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <% if(locals.userEmail){ %>
+                  <%= userEmail %>
+                </a>                
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="/createjob">Post New Job</a>
+                  </li>             
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="/logout">Logout</a></li>     
+                <% } else { %>
                 Recruiter
-              </a>
-              
-
-              <ul class="dropdown-menu">
-                
-                <li><a class="dropdown-item" href="/login">Login</a></li>
-                
-                <li><hr class="dropdown-divider"></li>
-                <li>
-                  <a class="dropdown-item" href="/postjob">Post New Job</a>
-                </li>
+                </a>                
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="/register">Register</a>
+                  </li>             
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="/login">Login</a></li>                
+              <% } %>
               </ul>
             </li>
           </ul>
@@ -56,5 +62,8 @@
     </nav>
     <!-- placeholder-->
     <%-body%>  
+    <div class="container text-center">
+        <span class="text-muted">&copy; <%= new Date().getFullYear() %> Easily Job Portal</span>
+    </div>
 </body>
 </html>

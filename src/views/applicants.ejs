@@ -1,5 +1,6 @@
-<div class="container">
-    <table class="table table-striped">
+<div class="container mt-5">
+  <h1>Applicants for Job</h1>
+    <table class="table table-striped applicants-table">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -11,15 +12,31 @@
       </thead>
       <tbody>
         
-        <tr>
-          <th scope="row">1</th>
-          <td>vivek</td>
-          <td>krvivi28@gmail.com</td>
-          <td>7839358367</td>
-          <td>
-            <a class="btn btn-sm btn-primary" href="http://localhost:3200/uploads/resume.pdf" target="_blank">view</a>
-          </td>
-        </tr>
+        <% if(applicants.length > 0){
+          applicants.forEach((applicant) => { %>
+              <tr>
+                  <td><%= applicant.name %></td>
+                  <td><%= applicant.email %></td>
+                  <td><%= applicant.contact %></td>
+                  <td>
+                      <% if (applicant.resume) { %>
+                          <a href="<%= applicant.resume %>" class="btn btn-outline-primary rounded-pill">Download Resume</a>
+                      <% } else { %>
+                          No resume uploaded
+                      <% } %>
+                  </td>
+              </tr>
+          <% });
+    // <nav aria-label="Page navigation example">
+    //   <ul class="pagination">
+    //     <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+    //     <li class="page-item"><a class="page-link" href="#">1</a></li>
+    //     <li class="page-item"><a class="page-link" href="#">2</a></li>
+    //     <li class="page-item"><a class="page-link" href="#">3</a></li>
+    //     <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    //   </ul>
+    // </nav>
+       } %>
         
       </tbody>
     </table>
