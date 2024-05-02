@@ -1,7 +1,7 @@
 <div class="container mt-5">
     <h1>Update Job Posting</h1>
     <% if(job){ %>
-        <form action="/job/<%= job.id %>" method="PUT">
+        <form action="/job/<%= job.id %>" method="POST">
             <div class="form-group">
                 <label for="category">Job Category</label>
                 <input type="text" id="category" name="category" class="form-control rounded-pill" placeholder="Job category" value="<%= job.category %>" required>

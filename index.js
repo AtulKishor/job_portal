@@ -10,6 +10,7 @@ import validationMiddleware from "./src/middlewares/validation.middleware.js";
 import authMiddleware from "./src/middlewares/auth.middleware.js";
 import { uploadFile } from "./src/middlewares/multer.middleware.js";
 import sendMail from "./src/middlewares/email.middleware.js";
+import lastVisit from "./src/middlewares/lastVisit.middleware.js";
 
 const PORT = 3200;
 const app = express();
@@ -28,6 +29,7 @@ const userController = new UsersController();
 // parse data
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
+app.use(lastVisit);
 
 // static files
 app.use(express.static('public'));
@@ -38,9 +40,7 @@ app.set("views", path.join(path.resolve(), 'src', 'views'));
 app.use(ejsLayouts);
 
 // Landing Page
-app.get("/", (req,res)=>{
-    res.render('home');
-});
+app.get("/", userController.showHome);
 
 // Job routes ==>
 
@@ -51,7 +51,7 @@ app.get("/createjob", authMiddleware, jobController.createJob)
 app.post('/job', authMiddleware, jobController.postNewJob);
 // Update job route
 app.get("/job/:id/update/", authMiddleware, jobController.viewEditForm)
-app.put("/job/:id", authMiddleware, jobController.updateJob);
+app.post("/job/:id", authMiddleware, jobController.updateJob);
 // Delete job route
 app.delete('/job/:id', authMiddleware, jobController.deleteJob);
 // Apply to job route
@@ -59,7 +59,7 @@ app.post("/apply/:id", uploadFile, validationMiddleware, jobController.applyToJo
 
 // register route
 app.get("/register", userController.showRegister);
-app.post('/register', userController.registerUser);
+app.post('/register', sendMail, userController.registerUser);
 
 // Login user route
 app.get("/login", userController.showLogin);
@@ -69,7 +69,7 @@ app.post('/login', userController.loginUser);
 app.get('/logout', userController.logoutUser);
 
 // applicant route
-app.get("/job/:id/applicants", authMiddleware, jobController.getApplicantsForJob);
+app.get("/job/:id/applicants/:pageNo", authMiddleware, jobController.getApplicantsForJob);
 app.post("/job/:id/applicants", authMiddleware, jobController.getApplicantsForJob);
 app.get("/job/:id/applicant/:applicantId", authMiddleware, jobController.getApplicantsForJob);
 app.delete("/job/:id/applicant/:applicantId", authMiddleware, jobController.getApplicantsForJob);

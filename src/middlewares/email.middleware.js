@@ -9,7 +9,7 @@ class CustomEvent extends EventEmitter {
 
 const customEvent = new CustomEvent();
   
-export default (email) => {
+export default (req, res, next) => {
     // Create a Nodemailer transporter
     const transporter = nodemailer.createTransport({
         service: "gmail",
@@ -22,7 +22,7 @@ export default (email) => {
     // Define email options
     const mailOptions = {
         from: "codingninjas2k16@gmail.com",
-        to: email,
+        to: req.body.email,
         subject: "Query received",
         text: "We have received your query and will get back to you soon.",
     };
@@ -32,6 +32,7 @@ export default (email) => {
         if(err) console.log(err);
         else customEvent.mailSent(email);
     });
+    next();
 }
 
 customEvent.addListener("mailSent", (email) => {

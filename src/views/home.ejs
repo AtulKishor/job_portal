@@ -6,9 +6,11 @@
         <h5 class="text-white">Get Discovered. Get Hired.</h5>
         <div class="actions">
           <a href="/jobs" class="btn btn-lg lbtn"> I'm A Job Seeker </a>
+          <% if (!locals.userEmail) { %>
           <button data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-lg lbtn mx-2">
             I'm A Recruiter
           </button>
+          <% } %>
         </div>
       </div>
       <div class="right">

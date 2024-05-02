@@ -2,7 +2,7 @@ import userModel from "../models/user.model.js";
 
 export default class UsersController {
     showHome (req, res) {
-        res.redirect("/jobs");
+        res.render("home", req.session.userEmail &&  {userEmail: req.session.userEmail});
     }
 
     showRegister (req, res) {
@@ -10,12 +10,13 @@ export default class UsersController {
     }
 
     registerUser (req, res) {
-        const { name, email, password } = req.body;
+        const { name, email, password, role } = req.body;
         const existingUser = userModel.findUserByEmail(email);
         if (existingUser) {
             return res.status(400).render('login', { message: 'User already exists' });
         }
-        const newUser = { name, email, password, role: req.body.recruiter?'recruiter':'seeker' };
+        const newUser = { name, email, password, role };
+        // console.log(newUser);
         userModel.addUser(newUser);
         res.status(201).redirect("/login");
     }
