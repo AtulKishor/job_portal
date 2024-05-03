@@ -28,10 +28,10 @@ export default class JobsController {
     viewEditForm (req, res) {
         const jobId = req.params.id;
         const job = JobModel.getJobById(jobId);
-        if (job.postedBy===req.session.userEmail)
-            res.render("editJob", {job, userEmail: req.session.userEmail});
-        else
-            return res.status(400).json({message: 'Please login as the creator of this job'});
+        if (job.postedBy!==req.session.userEmail){ // other user logged in
+            return res.status(400).json( {error: 'Please login as the creator of this job'} );
+        }
+        res.render("editJob", {job, userEmail: req.session.userEmail});
     }
 
     updateJob (req, res) {
@@ -43,8 +43,9 @@ export default class JobsController {
 
     deleteJob (req, res) {
         const jobId = req.params.id;
-        if (JobModel.getJobById(jobId).postedBy!==req.session.userEmail)
-            return res.status(400).json({message: 'Please login as the creator of this job'});
+        if (JobModel.getJobById(jobId).postedBy!==req.session.userEmail){ // other user logged in
+            return res.status(400).json( {error: 'Please login as the creator of this job'} );
+        }
         JobModel.deleteJobById(jobId);
         res.status(200).json({ message: 'Job deleted successfully', jobId });
     }

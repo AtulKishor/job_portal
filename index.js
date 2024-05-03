@@ -48,22 +48,22 @@ app.get("/jobs", jobController.getJobs);
 app.get("/job/:id", jobController.getJobDetails);
 // Create job route
 app.get("/createjob", authMiddleware, jobController.createJob)
-app.post('/job', authMiddleware, jobController.postNewJob);
+app.post('/job', authMiddleware, validationMiddleware, jobController.postNewJob);
 // Update job route
 app.get("/job/:id/update/", authMiddleware, jobController.viewEditForm)
-app.post("/job/:id", authMiddleware, jobController.updateJob);
+app.post("/job/:id", authMiddleware, validationMiddleware, jobController.updateJob);
 // Delete job route
 app.delete('/job/:id', authMiddleware, jobController.deleteJob);
 // Apply to job route
-app.post("/apply/:id", uploadFile, validationMiddleware, jobController.applyToJob);
+app.post("/apply/:id", uploadFile, validationMiddleware, sendMail, jobController.applyToJob);
 
 // register route
 app.get("/register", userController.showRegister);
-app.post('/register', sendMail, userController.registerUser);
+app.post('/register', validationMiddleware, userController.registerUser);
 
 // Login user route
 app.get("/login", userController.showLogin);
-app.post('/login', userController.loginUser);
+app.post('/login', validationMiddleware, userController.loginUser);
 
 // Logout user route
 app.get('/logout', userController.logoutUser);

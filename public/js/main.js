@@ -7,6 +7,10 @@ function deleteJob(id){
         .then((response) => {
             if(response.ok){
                 window.location.replace("/jobs")
+            } else  {
+                return response.json().then(error => {
+                    alert(error.error);
+                });
             }
         })
     }
