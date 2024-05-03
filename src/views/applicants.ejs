@@ -11,31 +11,48 @@
         </tr>
       </thead>
       <tbody>
-        <% applicants.slice((pageNo - 1) * 6, pageNo * 6).forEach((applicant) => { %>
-              <tr>
-                  <td></td>
-                  <td><%= applicant.name %></td>
-                  <td><%= applicant.email %></td>
-                  <td><%= applicant.contact %></td>
-                  <td>
-                      <% if (applicant.resume) { %>
-                          <a href="<%= applicant.resume %>" class="btn btn-outline-primary rounded-pill">Download Resume</a>
-                      <% } else { %>
-                          No resume uploaded
-                      <% } %>
-                  </td>
-              </tr>
-          <% }); %>
+        <% const startIndex = (pageNo - 1) * noItems; 
+          const totalPages = Math.ceil(applicants.length/noItems);
+        %>
+        <% for (let i = startIndex; i < applicants.length && i < startIndex+noItems ; i++) {
+          const applicant = applicants[i];
+        %>
+          <tr>
+            <td><%= i+1 %></td>
+            <td><%= applicant.name %></td>
+            <td><%= applicant.email %></td>
+            <td><%= applicant.contact %></td>
+            <td>
+              <% if (applicant.resume) { %>
+                <a href="<%= applicant.resume %>" class="btn btn-outline-primary rounded-pill">Download Resume</a>
+              <% } else { %>
+                No resume uploaded
+              <% } %>
+            </td>
+          </tr>
+        <% } %>
       </tbody>
     </table>
+      
   <!-- Pagination -->
-    <nav aria-label="Page navigation example">
-      <ul class="pagination">
-      <% for (let i = 1; i <= applicants.length/6; i++) { %>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <% if (pageNo > 1) { %>
         <li>
-          <a class="page-link" href="/job/<%= jobId %>/applicants?page=<%= i %>"><%= i %></a>
+          <a class="page-link" href="/job/<%= jobId %>/applicants/<%= pageNo - 1 %>">Previous</a>
         </li>
       <% } %>
-      </ul>
-    </nav>
-  </div>
+      <% for (let i = 1; i <= totalPages; i++) { %>
+        <li class="<%= i === pageNo ? 'active' : '' %>">
+          <a class="page-link" href="/job/<%= jobId %>/applicants/<%= i %>"><%= i %></a>
+        </li>
+      <% } %>
+      <% if (pageNo < totalPages) { %>
+        <li>
+          <a class="page-link" href="/job/<%= jobId %>/applicants/<%= pageNo + 1 %>">Next</a>
+        </li>
+      <% } %>
+    </ul>
+  </nav>
+</div>
+    

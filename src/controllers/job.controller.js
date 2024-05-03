@@ -69,7 +69,13 @@ export default class JobsController {
     getApplicantsForJob (req, res) {
         const jobId = req.params.id;
         const pageNo = req.params.pageNo;
+        const noItems = 2;
         const applicants = JobModel.getApplicantsForJob(jobId);
-        res.render("applicants", {applicants, userEmail: req.session.userEmail, jobId, pageNo});
+        res.render("applicants", {applicants, 
+            jobId,
+            pageNo, 
+            noItems,
+            userEmail: req.session.userEmail,
+        });
     }
 };
