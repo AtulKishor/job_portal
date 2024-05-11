@@ -8,6 +8,7 @@ import JobController from "./src/controllers/job.controller.js";
 import UsersController from "./src/controllers/user.conroller.js";
 import validationMiddleware from "./src/middlewares/validation.middleware.js";
 import authMiddleware from "./src/middlewares/auth.middleware.js";
+import loggedIn from "./src/middlewares/recuiter.middleware.js";
 import { uploadFile } from "./src/middlewares/multer.middleware.js";
 import sendMail from "./src/middlewares/email.middleware.js";
 import lastVisit from "./src/middlewares/lastVisit.middleware.js";
@@ -58,11 +59,11 @@ app.delete('/job/:id', authMiddleware, jobController.deleteJob);
 app.post("/apply/:id", uploadFile, validationMiddleware, sendMail, jobController.applyToJob);
 
 // register route
-app.get("/register", userController.showRegister);
+app.get("/register", loggedIn, userController.showRegister);
 app.post('/register', validationMiddleware, userController.registerUser);
 
 // Login user route
-app.get("/login", userController.showLogin);
+app.get("/login", loggedIn, userController.showLogin);
 app.post('/login', validationMiddleware, userController.loginUser);
 
 // Logout user route
